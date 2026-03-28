@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<title>KiwiStays — Investor Outreach Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="logo">Kiwi<span>Stays</span> &nbsp;<span style="font-size:13px;font-weight:500;color:rgba(0,0,0,0.4);">Investor Outreach Dashboard</span></div>
+    <div class="title">Pre-Series A &middot; &#8377;10 Cr &middot; March 2026</div>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-outline" onclick="exportCSV()">&#x2913; Export CSV</button>
+    <button class="btn btn-green" onclick="openModal()">+ Add Investor</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('tracker')">Tracker</button>
+  <button class="tab-btn" onclick="switchTab('messages')">Messages</button>
+  <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+</div>
+
+<!-- ====== TRACKER TAB ====== -->
+<div class="tab-content active" id="tab-tracker">
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <input type="text" class="search-box" id="searchBox" placeholder="Search investors, funds, notes..." oninput="renderTable()">
+  <select class="filter-select" id="stageFilter" onchange="renderTable()">
+    <option value="">All Stages</option>
+    <option value="Identified">Identified</option>
+    <option value="Reached Out">Reached Out</option>
+    <option value="In Dialogue">In Dialogue</option>
+    <option value="Meeting Set">Meeting Set</option>
+    <option value="Met">Met</option>
+    <option value="Due Diligence">Due Diligence</option>
+    <option value="Term Sheet">Term Sheet</option>
+    <option value="Closed">Closed</option>
+    <option value="Passed">Passed</option>
+  </select>
+  <select class="filter-select" id="priorityFilter" onchange="renderTable()">
+    <option value="">All Priorities</option>
+    <option value="P1">P1 — Urgent</option>
+    <option value="P2">P2 — High</option>
+    <option value="P3">P3 — Medium</option>
+    <option value="P4">P4 — Later</option>
+  </select>
+  <select class="filter-select" id="sortSelect" onchange="renderTable()">
+    <option value="updated">Last Updated</option>
+    <option value="name">Name A-Z</option>
+    <option value="stage">Stage (Pipeline)</option>
+    <option value="priority">Priority</option>
+    <option value="nextAction">Next Action Date</option>
+  </select>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <table id="investorTable">
+    <thead>
+      <tr>
+        <th style="width:30px;">#</th>
+        <th>Investor / Partner</th>
+        <th>Fund / Firm</th>
+        <th>Category</th>
+        <th>Stage</th>
+        <th>Priority</th>
+        <th>Ticket (&#8377;Cr)</th>
+        <th>Contact</th>
+        <th>How to Reach</th>
+        <th>Next Action</th>
+        <th>Notes</th>
+        <th style="width:70px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="emoji">&#128203;</div>
+    <p>No investors match your filters. Try adjusting your search or add a new investor.</p>
+  </div>
+</div>
+
+</div><!-- /tab-tracker -->
+
+<!-- ====== ANALYTICS TAB ====== -->
+<div class="tab-content" id="tab-analytics">
+<div class="analytics-wrap">
+
+  <div class="analytics-grid">
+    <div class="analytics-card">
+      <h3>Pipeline Funnel</h3>
+      <div id="funnelChart"></div>
+    </div>
+    <div class="analytics-card">
+      <h3>Key Metrics</h3>
+      <div class="rate-cards" id="rateCards"></div>
+    </div>
+    <div class="analytics-card">
+      <h3>This Week's Activity Heatmap</h3>
+      <div class="week-grid" id="weekGrid"></div>
+      <div style="margin-top:12px;font-size:10px;color:rgba(0,0,0,0.35);text-align:center;">Actions scheduled this week (Mon&ndash;Sun)</div>
+    </div>
+    <div class="analytics-card">
+      <h3>Upcoming Actions</h3>
+      <div class="action-list" id="actionList"></div>
+    </div>
+  </div>
+
+  <div class="analytics-card" style="margin-bottom:20px;">
+    <h3>Pipeline Distribution by Priority</h3>
+    <div id="priorityMatrix"></div>
+  </div>
+
+  <div class="analytics-card">
+    <h3>Source Effectiveness</h3>
+    <div id="sourceChart"></div>
+  </div>
+
+</div>
+</div><!-- /tab-analytics -->
+
+<!-- ====== MESSAGES TAB ====== -->
+<div class="tab-content" id="tab-messages">
+  <div class="toolbar" style="flex-wrap:wrap;gap:10px;">
+    <input type="text" class="search-box" id="msgSearch" placeholder="Search messages by investor name..." oninput="renderMessages()" style="flex:1;min-width:200px;">
+    <select class="filter-select" id="msgStatusFilter" onchange="renderMessages()">
+      <option value="">All Statuses</option>
+      <option value="Draft">Draft</option>
+      <option value="Ready">Ready to Send</option>
+      <option value="Sent">Sent</option>
+      <option value="Replied">Replied</option>
+    </select>
+    <select class="filter-select" id="msgChannelFilter" onchange="renderMessages()">
+      <option value="">All Channels</option>
+      <option value="LinkedIn DM">LinkedIn DM</option>
+      <option value="Email">Email</option>
+      <option value="Website Form">Website Form</option>
+      <option value="Instagram DM">Instagram DM</option>
+      <option value="WhatsApp">WhatsApp</option>
+    </select>
+    <button class="btn btn-green" onclick="openMsgModal()">+ New Message</button>
+  </div>
+  <div id="messagesContainer" style="padding:0 32px 32px;"></div>
+</div><!-- /tab-messages -->
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2 id="modalTitle">Add New Investor</h2>
+    <input type="hidden" id="editId" value="">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Investor / Partner Name</label>
+        <input type="text" id="fName" placeholder="e.g., Rajesh Sharma">
+      </div>
+      <div class="form-group">
+        <label>Fund / Firm</label>
+        <input type="text" id="fFund" placeholder="e.g., Blume Ventures">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Stage</label>
+        <select id="fStage">
+          <option>Identified</option>
+          <option>Reached Out</option>
+          <option>In Dialogue</option>
+          <option>Meeting Set</option>
+          <option>Met</option>
+          <option>Due Diligence</option>
+          <option>Term Sheet</option>
+          <option>Closed</option>
+          <option>Passed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="fPriority">
+          <option value="P1">P1 — Urgent</option>
+          <option value="P2">P2 — High</option>
+          <option value="P3">P3 — Medium</option>
+          <option value="P4">P4 — Later</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" id="fCategory" placeholder="e.g., VC — Warm, Family Office, Angel">
+      </div>
+      <div class="form-group">
+        <label>Ticket Size (&#8377; Cr)</label>
+        <input type="text" id="fTicketSize" placeholder="e.g., 5–20">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Contact / Platform</label>
+        <input type="text" id="fContact" placeholder="email, LinkedIn, website">
+      </div>
+      <div class="form-group">
+        <label>How to Reach</label>
+        <input type="text" id="fIntro" placeholder="e.g., LinkedIn DM, warm intro, apply on website">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Why KiwiStays Fit</label>
+        <input type="text" id="fWhyFit" placeholder="Why this investor is a good match">
+      </div>
+      <div class="form-group">
+        <label>Fund Stage</label>
+        <input type="text" id="fFundStage" placeholder="e.g., Seed / Series A, Angel">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Next Action</label>
+        <input type="text" id="fNextAction" placeholder="e.g., Send deck, Follow up Mar 25">
+      </div>
+      <div class="form-group">
+        <label>Next Action Date</label>
+        <input type="date" id="fNextDate">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="fNotes" placeholder="Any context, feedback, preferences..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveInvestor()">Save Investor</button>
+    </div>
+  </div>
+</div>
+
+<div class="export-notice" id="exportNotice">CSV exported successfully!</div>
+
+<!-- MESSAGE MODAL -->
+<div class="modal-overlay" id="msgModalOverlay">
+  <div class="modal" style="max-width:640px;">
+    <h2 id="msgModalTitle">New Outreach Message</h2>
+    <input type="hidden" id="msgEditId" value="">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Investor / Fund Name</label>
+        <input type="text" id="mInvestor" placeholder="e.g., Arjun Vaidya">
+      </div>
+      <div class="form-group">
+        <label>Channel</label>
+        <select id="mChannel">
+          <option>LinkedIn DM</option>
+          <option>Email</option>
+          <option>Website Form</option>
+          <option>Instagram DM</option>
+          <option>WhatsApp</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select id="mStatus">
+          <option>Draft</option>
+          <option>Ready</option>
+          <option>Sent</option>
+          <option>Replied</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Subject (for emails)</label>
+        <input type="text" id="mSubject" placeholder="Optional — email subject line">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea id="mBody" rows="10" style="min-height:200px;white-space:pre-wrap;" placeholder="Paste or type your outreach message here..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Notes (internal — not sent)</label>
+      <input type="text" id="mNotes" placeholder="e.g., Follow up in 5 days, attach deck">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeMsgModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMessage()">Save Message</button>
+    </div>
+  </div>
+</div>
+
+<div class="export-notice" id="copyNotice" style="background:var(--green);color:var(--dark);">Message copied to clipboard!</div>
+
+<script type="module" src="/main.js"></script>
+</body>
+</html>
