@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { DEFAULT_INVESTORS, DEFAULT_MESSAGES } from './seed-data.js';
 
 // ============ SUPABASE CONFIG ============
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
@@ -65,7 +66,12 @@ async function loadInvestors() {
     }));
   } else {
     const stored = localStorage.getItem('kiwi_investors');
-    if (stored) investors = JSON.parse(stored);
+    if (stored) {
+      investors = JSON.parse(stored);
+    } else {
+      investors = JSON.parse(JSON.stringify(DEFAULT_INVESTORS));
+      localStorage.setItem('kiwi_investors', JSON.stringify(investors));
+    }
   }
 }
 
@@ -132,7 +138,12 @@ async function loadMessages() {
     }));
   } else {
     const stored = localStorage.getItem('kiwi_messages');
-    if (stored) messages = JSON.parse(stored);
+    if (stored) {
+      messages = JSON.parse(stored);
+    } else {
+      messages = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+      localStorage.setItem('kiwi_messages', JSON.stringify(messages));
+    }
   }
 }
 
