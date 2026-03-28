@@ -20,6 +20,10 @@ try {
   console.warn('Supabase init failed, using localStorage fallback:', e);
 }
 
+// ============ SEED VERSION ============
+// Bump this whenever seed-data.js is updated to force a re-seed on the live site
+const SEED_VERSION = 2;
+
 // ============ DATA ============
 const STAGES = ['Identified','Reached Out','In Dialogue','Meeting Set','Met','Due Diligence','Term Sheet','Closed','Passed'];
 const STAGE_CLASSES = {
@@ -65,12 +69,14 @@ async function loadInvestors() {
       updated: row.updated_at || Date.now()
     }));
   } else {
+    const storedVersion = parseInt(localStorage.getItem('kiwi_seed_version') || '0');
     const stored = localStorage.getItem('kiwi_investors');
-    if (stored) {
+    if (stored && storedVersion >= SEED_VERSION) {
       investors = JSON.parse(stored);
     } else {
       investors = JSON.parse(JSON.stringify(DEFAULT_INVESTORS));
       localStorage.setItem('kiwi_investors', JSON.stringify(investors));
+      localStorage.setItem('kiwi_seed_version', String(SEED_VERSION));
     }
   }
 }
@@ -137,12 +143,14 @@ async function loadMessages() {
       updated: row.updated_at || Date.now()
     }));
   } else {
+    const storedVersion = parseInt(localStorage.getItem('kiwi_seed_version') || '0');
     const stored = localStorage.getItem('kiwi_messages');
-    if (stored) {
+    if (stored && storedVersion >= SEED_VERSION) {
       messages = JSON.parse(stored);
     } else {
       messages = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
       localStorage.setItem('kiwi_messages', JSON.stringify(messages));
+      localStorage.setItem('kiwi_seed_version', String(SEED_VERSION));
     }
   }
 }
