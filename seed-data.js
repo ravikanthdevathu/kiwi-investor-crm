@@ -4,8 +4,8 @@ export const DEFAULT_INVESTORS = [
   // ========== P1 — URGENT ==========
   { name:'Shapat (Partner)', fund:'White Whale Ventures', stage:'In Dialogue', priority:'P1', category:'VC — Warm', contact:'shapat@whitewhale.vc', intro:'Follow up on existing thread', emailDate:'', meetingDate:'', nextAction:'Send detailed deck + MIS this week. Ask for next meeting.', nextDate:'2026-03-20', notes:'Warm conversation already started. Shapat has hospitality background and showed active interest. Asked for more details. Warmest live VC lead. Most important live conversation — do NOT let this go cold.', ticketSize:'5–20 Cr', whyFit:'Warm conversation already started. Hospitality background, active interest.', conflictCheck:'✅ None', fundStage:'Seed / Series A', updated:Date.now() },
   { name:'Partner (name TBC)', fund:'TDV Partners', stage:'In Dialogue', priority:'P1', category:'VC — Warm', contact:'Through existing contact', intro:'Send MIS immediately', emailDate:'', meetingDate:'', nextAction:'Send clean MIS this week. Follow up in 5 days.', nextDate:'2026-03-20', notes:'1 meeting done. Asked for MIS — positive diligence signal. They understand ops-heavy businesses. MIS request = genuine interest. Clean P&L, occupancy, unit economics.', ticketSize:'5–15 Cr', whyFit:'1 meeting done. Asked for MIS — positive diligence signal.', conflictCheck:'✅ None', fundStage:'Seed / Series A', updated:Date.now()-1000 },
-  { name:'Arjun Vaidya', fund:'V3 Ventures / Verlinvest India', stage:'Identified', priority:'P1', category:'Angel', contact:'linkedin.com/in/arjunvaidya · cal.com/arjun-vaidya-lec0j0', intro:'LinkedIn DM — he says "DM me, happy to chat"', emailDate:'', meetingDate:'', nextAction:'Send personalised LinkedIn DM this week. Lead with NUMA/Verlinvest angle.', nextDate:'2026-03-20', notes:'Most strategic angel. Runs V3 Ventures = Verlinvest India arm. Verlinvest backed NUMA (European KiwiStays). L Catterton hospitality background. 80+ portfolio cos. Last investment Dec 2025. Unlocks BOTH angel capital AND Verlinvest VC path.', ticketSize:'1–3 Cr', whyFit:'Runs V3 Ventures = Verlinvest India. Backed NUMA (European KiwiStays). Highest leverage move.', conflictCheck:'✅ None', fundStage:'Angel', updated:Date.now()-2000 },
-  { name:'Neetan Chopra', fund:'IndiGo Ventures', stage:'Identified', priority:'P1', category:'CVC — Travel Mandate', contact:'GoIndiGoVentures.com · Neetan Chopra on LinkedIn', intro:'Website + direct outreach to Neetan Chopra', emailDate:'', meetingDate:'', nextAction:'Draft pitch around IndiGo passenger journey → KiwiStays stays. Apply on website AND email Neetan.', nextDate:'2026-03-21', notes:'EXPLICIT mandate: travel + hospitality. ₹450Cr fund closed Jul 2025. 2 investments made — huge dry powder. IndiGo passengers fly to Goa/Dehradun and stay at KiwiStays. Distribution upside = massive. BIGGEST MISS found in research.', ticketSize:'5–20 Cr', whyFit:'Only fund with explicit hospitality mandate + fresh capital. Distribution partnership upside.', conflictCheck:'✅ None', fundStage:'Series A', updated:Date.now()-3000 },
+  { name:'Arjun Vaidya', fund:'V3 Ventures / Verlinvest India', stage:'Reached Out', priority:'P1', category:'Angel', contact:'linkedin.com/in/arjunvaidya · cal.com/arjun-vaidya-lec0j0', intro:'LinkedIn DM — he says "DM me, happy to chat"', emailDate:'', meetingDate:'', nextAction:'DM Arjun directly — Shweta DM sent (28 Mar), no response yet. Try Arjun\'s cal.com link or DM him directly.', nextDate:'2026-04-04', notes:'Most strategic angel. Runs V3 Ventures = Verlinvest India arm. Verlinvest backed NUMA (European KiwiStays). L Catterton hospitality background. 80+ portfolio cos. Last investment Dec 2025. Unlocks BOTH angel capital AND Verlinvest VC path. UPDATE 28 Mar: LinkedIn DM sent to Shweta Tripathi (Consumer Investor at V3, screens for Arjun) — no response. Next: DM Arjun directly.', ticketSize:'1–3 Cr', whyFit:'Runs V3 Ventures = Verlinvest India. Backed NUMA (European KiwiStays). Highest leverage move.', conflictCheck:'✅ None', fundStage:'Angel', updated:Date.now() },
+  { name:'Neetan Chopra', fund:'IndiGo Ventures', stage:'Reached Out', priority:'P1', category:'CVC — Travel Mandate', contact:'GoIndiGoVentures.com · Neetan Chopra on LinkedIn', intro:'Website + direct outreach to Neetan Chopra', emailDate:'', meetingDate:'', nextAction:'Follow up with Neetan directly — Rahil DM sent on LinkedIn (28 Mar), no response yet. Try email or website form.', nextDate:'2026-04-04', notes:'EXPLICIT mandate: travel + hospitality. ₹450Cr fund closed Jul 2025. 2 investments made — huge dry powder. IndiGo passengers fly to Goa/Dehradun and stay at KiwiStays. Distribution upside = massive. UPDATE 28 Mar: LinkedIn DM sent to Rahil Dutt (Lead, Investments) — no response. Try Neetan directly or apply via website.', ticketSize:'5–20 Cr', whyFit:'Only fund with explicit hospitality mandate + fresh capital. Distribution partnership upside.', conflictCheck:'✅ None', fundStage:'Series A', updated:Date.now() },
 
   // ========== P2 — HIGH ==========
   { name:'Rishabh Mariwala', fund:'Sharrp Ventures', stage:'Identified', priority:'P2', category:'Family Office', contact:'sharrpventures.com/pitch · Rishabh Mariwala LinkedIn', intro:'Public pitch form + LinkedIn', emailDate:'', meetingDate:'', nextAction:'Submit pitch form AND DM Rishabh on LinkedIn with 3-line hook.', nextDate:'2026-03-22', notes:'Marico family office. Portfolio: Mamaearth, boAt, SleepyCat, Bira, mCaffeine. COO of Sula Vineyards is now partner. 3 investments in last 12 months. Patient capital, no VC lifecycle pressure.', ticketSize:'5–20 Cr', whyFit:'Premium Indian consumer brand thesis = KiwiStays. Patient capital.', conflictCheck:'✅ None', fundStage:'Seed / Series A', updated:Date.now()-4000 },
@@ -56,7 +56,7 @@ export const DEFAULT_MESSAGES = [
   {
     investor: 'Shweta Tripathi — V3 Ventures',
     channel: 'LinkedIn DM',
-    status: 'Ready',
+    status: 'Sent',
     subject: '',
     body: `Hi Shweta,
 
@@ -65,7 +65,7 @@ Thanks for connecting! I'm Nymisha — CA, IIM-B, co-founder of KiwiStays. We're
 61 properties, 78% occupancy, EBITDA-positive, zero external funding. AI-driven ops give us a structural cost advantage that luxury PMCs can't replicate at their price point.
 
 Raising ₹10Cr Pre-Series A. Would love 20 minutes — happy to share a deck beforehand.`,
-    notes: 'P1 — Shweta is Consumer Investor at V3, screens deals for Arjun Vaidya. Ex-WEH Ventures. Send this first before/alongside the Arjun DM so the deal lands warm.',
+    notes: 'SENT 28 Mar on LinkedIn — no response. Next: DM Arjun Vaidya directly. Shweta is Consumer Investor at V3, screens deals for Arjun. Ex-WEH Ventures.',
     updated: Date.now()
   },
   {
@@ -113,14 +113,14 @@ nymisha@kiwistays.in`,
   {
     investor: 'Rahil Dutt — IndiGo Ventures',
     channel: 'LinkedIn DM',
-    status: 'Ready',
+    status: 'Sent',
     subject: '',
     body: `Hi Rahil,
 
 Thanks for connecting! I'm Nymisha — CA, IIM-B, co-founder of KiwiStays. We manage vacation rentals at ₹1K–4K/night across leisure destinations — 61 properties, 78% occupancy, EBITDA-positive, bootstrapped. AI-driven ops give us a structural cost advantage that luxury PMCs can't replicate at their price point.
 
 Raising ₹10Cr Pre-Series A. Would love to share a deck and get 20 minutes if this fits your hospitality thesis.`,
-    notes: 'P1 — Rahil is Lead, Investments at IndiGo Ventures. ISB + SRCC, ex-Citi. He runs deal evaluation for Neetan Chopra. Send alongside or before the Neetan message.',
+    notes: 'SENT 28 Mar on LinkedIn — no response. Next: Try Neetan Chopra directly or apply via GoIndiGoVentures.com. Rahil is Lead, Investments at IndiGo Ventures. ISB + SRCC, ex-Citi.',
     updated: Date.now()-2000
   }
 ];
