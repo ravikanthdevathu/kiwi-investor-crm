@@ -22,7 +22,7 @@ try {
 
 // ============ SEED VERSION ============
 // Bump this whenever seed-data.js is updated to force a re-seed on the live site
-const SEED_VERSION = 2;
+const SEED_VERSION = 3;
 
 // ============ DATA ============
 const STAGES = ['Identified','Reached Out','In Dialogue','Meeting Set','Met','Due Diligence','Term Sheet','Closed','Passed'];
@@ -194,12 +194,13 @@ function renderStats() {
   const counts = {};
   STAGES.forEach(s => counts[s] = 0);
   investors.forEach(inv => { if (counts[inv.stage] !== undefined) counts[inv.stage]++; });
-  const total = investors.length;
+  const activeTotal = investors.filter(i => i.stage !== 'Passed').length;
+  const passedCount = counts['Passed'] || 0;
   const activeFilter = document.getElementById('stageFilter').value;
 
   let html = `<div class="stat-card ${!activeFilter?'active':''}" onclick="filterByStage('')" style="cursor:pointer;">
-    <div class="stat-val" style="color:var(--dark);">${total}</div>
-    <div class="stat-label">Total</div>
+    <div class="stat-val" style="color:var(--dark);">${activeTotal}</div>
+    <div class="stat-label">Active</div>
   </div>`;
 
   STAGES.filter(s => s !== 'Passed').forEach(s => {
@@ -209,6 +210,14 @@ function renderStats() {
       <div class="stat-label">${s}</div>
     </div>`;
   });
+
+  if (passedCount > 0) {
+    const isActive = activeFilter === 'Passed';
+    html += `<div class="stat-card ${isActive?'active':''}" onclick="filterByStage('Passed')" style="cursor:pointer;">
+      <div class="stat-val" style="color:var(--red);">${passedCount}</div>
+      <div class="stat-label">Passed</div>
+    </div>`;
+  }
 
   document.getElementById('statsBar').innerHTML = html;
 }
