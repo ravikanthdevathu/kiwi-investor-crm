@@ -271,36 +271,29 @@ function renderTable() {
     const prioCls = inv.priority === 'P1' ? 'priority-high' : inv.priority === 'P2' ? 'priority-medium' : 'priority-low';
     const isOverdue = inv.nextDate && inv.nextDate < today && inv.stage !== 'Closed' && inv.stage !== 'Passed';
 
-    return `<tr>
+    const notesPreview = (inv.notes || '').length > 60 ? inv.notes.substring(0, 60) + '…' : (inv.notes || '');
+    const nextActionPreview = (inv.nextAction || '').length > 50 ? inv.nextAction.substring(0, 50) + '…' : (inv.nextAction || '');
+    const escapedNotes = (inv.notes || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const escapedAction = (inv.nextAction || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+    return `<tr onclick="editInvestor('${invId}')" style="cursor:pointer;">
       <td style="color:rgba(0,0,0,0.3);font-size:11px;">${i+1}</td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','name',this.innerText)" style="font-weight:600;">${inv.name||''}</td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','fund',this.innerText)" style="font-weight:500;">${inv.fund}</td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','category',this.innerText)" style="font-size:11px;color:rgba(0,0,0,0.6);">${inv.category||''}</td>
+      <td style="font-weight:600;">${inv.name||''}</td>
+      <td style="font-weight:500;">${inv.fund}</td>
+      <td style="font-size:11px;color:rgba(0,0,0,0.6);">${inv.category||''}</td>
       <td>
-        <select onchange="updateField('${invId}','stage',this.value);renderTable();" style="border:none;background:transparent;font-family:Sora;font-size:11px;font-weight:700;color:inherit;cursor:pointer;padding:3px 0;">
-          ${STAGES.map(s => '<option value="'+s+'" '+(s===inv.stage?'selected':'')+'>'+s+'</option>').join('')}
-        </select>
-        <span class="stage-badge ${STAGE_CLASSES[inv.stage]}" style="display:block;margin-top:2px;">${inv.stage}</span>
+        <span class="stage-badge ${STAGE_CLASSES[inv.stage]}">${inv.stage}</span>
       </td>
       <td>
-        <select onchange="updateField('${invId}','priority',this.value);renderTable();" style="border:none;background:transparent;font-family:Sora;font-size:11px;cursor:pointer;padding:0;">
-          <option value="P1" ${inv.priority==='P1'?'selected':''}>P1</option>
-          <option value="P2" ${inv.priority==='P2'?'selected':''}>P2</option>
-          <option value="P3" ${inv.priority==='P3'?'selected':''}>P3</option>
-          <option value="P4" ${inv.priority==='P4'?'selected':''}>P4</option>
-        </select>
-        <span class="priority-dot ${prioCls}"></span>
+        <span class="priority-dot ${prioCls}"></span>${inv.priority}
       </td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','ticketSize',this.innerText)" style="font-size:11px;white-space:nowrap;">${inv.ticketSize||''}</td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','contact',this.innerText)" style="font-size:11px;">${inv.contact}</td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','intro',this.innerText)" style="font-size:11px;">${inv.intro}</td>
-      <td style="${isOverdue?'color:var(--red);':''}">
-        <div class="editable" contenteditable="true" onblur="updateField('${invId}','nextAction',this.innerText)" style="font-size:11px;font-weight:500;${isOverdue?'color:var(--red);':''}">${inv.nextAction}</div>
-        <input type="date" value="${inv.nextDate}" onchange="updateField('${invId}','nextDate',this.value)" style="border:none;font-family:Sora;font-size:10px;background:transparent;width:110px;margin-top:2px;${isOverdue?'color:var(--red);':''}">
-        ${isOverdue ? '<div style="font-size:9px;color:var(--red);font-weight:700;margin-top:2px;">OVERDUE</div>' : ''}
+      <td style="font-size:11px;white-space:nowrap;">${inv.ticketSize||''}</td>
+      <td style="${isOverdue?'color:var(--red);':''}" title="${escapedAction}">
+        <div style="font-size:11px;font-weight:500;${isOverdue?'color:var(--red);':''}">${nextActionPreview}</div>
+        ${inv.nextDate ? `<div style="font-size:10px;color:${isOverdue?'var(--red)':'rgba(0,0,0,0.4)'};margin-top:2px;">${new Date(inv.nextDate+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'})}${isOverdue?' · OVERDUE':''}</div>` : ''}
       </td>
-      <td class="editable" contenteditable="true" onblur="updateField('${invId}','notes',this.innerText)" style="font-size:11px;color:rgba(0,0,0,0.6);max-width:200px;">${inv.notes}</td>
-      <td>
+      <td style="font-size:11px;color:rgba(0,0,0,0.5);" title="${escapedNotes}">${notesPreview}</td>
+      <td onclick="event.stopPropagation();">
         <button class="btn btn-sm btn-outline" onclick="editInvestor('${invId}')" title="Edit" style="margin-bottom:4px;">&#9998;</button>
         <button class="btn btn-sm btn-danger" onclick="deleteInvestor('${invId}')" title="Delete">&#10007;</button>
       </td>
